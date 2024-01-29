@@ -2,7 +2,7 @@ from django.shortcuts import render
 from app.forms import CommentForm, SubscribeForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from app.models import Comments, Post
+from app.models import Comments, Post, Tag
 
 # Create your views here.
 
@@ -59,5 +59,14 @@ def post_page(request, slug):
         post.view_count = post.view_count + 1
     post.save()
     
-    context = {'post': post, 'form': form, 'comments': comments}
+    context = {'post':post, 'form':form, 'comments':comments}
     return render(request, 'app/post.html', context)
+
+def tag_page(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    top_posts = Post.objects.filter(tags__in=[tag.id]).order_by('-view_count')[0:2]
+    recent_posts = Post.objects.filter(tags__in=[tag.id]).order_by('-last_updated')[0:2]
+    tags = Tag.objects.all()
+    
+    context = {'tag':tag, 'top_posts':top_posts, 'recent_posts':recent_posts, 'tags':tags}
+    return render(request, 'app/tag.html', context)

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Blog | {{tag.name}}{% endblock title %}
+{% block title %}Blog | {{profile.user.first_name}}{% endblock title %}
 
 {% block content %}
       <div class="container">
@@ -13,16 +13,16 @@
                     <span class="material-icons"> keyboard_return </span> Go
                     back
                   </a>
-                  <h1>Tag</h1>
+                  <h1>Author</h1>
                 </div>
               </div>
             </div>
 
             <center>
               <div class="typo">
-                <h1 class="title">{{tag.name}}</h1>
+                <h1 class="title">{{profile.user.first_name}}</h1>
                 <p>
-                  {{tag.description}}
+                  {{profile.bio}}
                 </p>
               </div>
             </center>
@@ -44,7 +44,7 @@
                           </h3>
                           <div class="author">
                             <div class="profile-pic">
-                              <img src="{{post.author.profile.profile_image.url}}" alt="" />
+                              <img src="{{profile.profile_image.url}}" alt="" />
                             </div>
                             <div class="details">
                               <p>{{post.author.first_name}}</p>
@@ -108,12 +108,23 @@
           <!-- right layout -->
           <div class="right">
             <div class="block">
-              <h2 class="title2">More Tags</h2>
-              <div class="blog-tags">
-                {% for tag in tags %}
-                <a href="{% url "tag_page" tag.slug %}" class="tag">{{tag.name}}</a>
-                {% endfor %}
+              <h2 class="title2">Top Authors</h2>
+              {% for author in top_authors %}
+              <div class="recent-post other-author">
+                <div class="rounded-img">
+                  <img src="{{author.profile.profile_image.url}}" alt="" />
+                </div>
+                <div class="recent-content">
+                  <h3>
+                    {{author.first_name}}
+                  </h3>
+                  <a class="learn" href="{% url "author_page" author.profile.slug %}"
+                    >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
               </div>
+              {% endfor %}
             </div>
           </div>
           <!-- right layout end -->

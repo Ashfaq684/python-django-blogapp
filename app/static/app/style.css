@@ -915,9 +915,10 @@ p a {
   width: 40%;
   margin: 0rem !important;
 }
-main {
+/* main {
   padding-top: 10rem !important;
-}
+} */
+
 /* responsive code */
 @media (max-width: 991px) {
   html {

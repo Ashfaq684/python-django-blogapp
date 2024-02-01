@@ -9,24 +9,33 @@
                     <div class="logo f-logo">
                         <i class="fa-brands fa-blogger"></i>
                     </div>
+
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <div class="field-error">
+                                <p>{{error}}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
                     <div class="inputs">
                         <div class="search-bar s-active input">
-                            {{ form.username }}
-                            <div class="animated-search">
-                                <i class="uil uil-envelope-alt"></i>
-                            </div>
+                          <input type="text" placeholder="Username" name="username">
+                          <div class="animated-search">
+                            <i class="uil uil-user"></i>
+                          </div>
                         </div>
                         <div class="search-bar s-active input">
-                            {{ form.password }}
-                            <div class="animated-search">
-                                <i class="uil uil-key-skeleton"></i>
-                            </div>
+                          <input type="password" placeholder="Password" name="password">
+                          <div class="animated-search">
+                            <i class="uil uil-key-skeleton"></i>
+                          </div>
                         </div>
-
+                                      
                         <button class="btn btn-primary rounded" type="submit">
-                            Login <span class="material-icons"> arrow_right_alt </span>
+                          Login <span class="material-icons"> arrow_right_alt </span>
                         </button>
-                        <p>Not have an account? <a href="signup.html">Sign up</a></p>
+                        <p>Not have an account? <a href={% url "register" %}>Sign up</a></p>
                     </div>
                 </center>
         </form>

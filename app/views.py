@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from app.forms import CommentForm, NewUserForm, SubscribeForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -40,6 +40,19 @@ def post_page(request, slug):
     comments = Comments.objects.filter(post=post, parent=None)
     form = CommentForm()
     
+    # Bookmark logic
+    bookmarked = False
+    if post.bookmarks.filter(id = request.user.id).exists():
+        bookmarked = True
+    is_bookmarked = bookmarked
+    
+    # Liked logic
+    liked = False
+    if post.likes.filter(id = request.user.id).exists():
+        liked = True
+    number_of_likes = post.number_of_likes()
+    is_liked = liked
+    
     if request.POST:
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
@@ -67,7 +80,7 @@ def post_page(request, slug):
         post.view_count = post.view_count + 1
     post.save()
     
-    context = {'post':post, 'form':form, 'comments':comments}
+    context = {'post':post, 'form':form, 'comments':comments, 'is_bookmarked':is_bookmarked, 'is_liked':is_liked, 'number_of_likes':number_of_likes}
     return render(request, 'app/post.html', context)
 
 def tag_page(request, slug):
@@ -117,3 +130,35 @@ def register_user(request):
     
     context={'form': form}
     return render(request, 'registration/registration.html', context)
+
+
+def bookmark_post(request, slug):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.bookmarks.filter(id = request.user.id).exists():
+        post.bookmarks.remove(request.user)
+    else:
+        post.bookmarks.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
+
+def like_post(request, slug):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    if post.likes.filter(id = request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post_page', args=[str(slug)]))
+
+def all_bookmarked_posts(request):
+    all_bookmarked_posts = Post.objects.filter(bookmarks=request.user)
+    context={'all_bookmarked_posts':all_bookmarked_posts}
+    return render(request, 'app/all_bookmarked_posts.html', context)
+
+def all_posts(request):
+    all_posts = Post.objects.all()
+    context={'all_posts':all_posts}
+    return render(request, 'app/all_posts.html', context)
+
+def all_liked_posts(request):
+    all_liked_posts = Post.objects.filter(likes=request.user)
+    context={'all_liked_posts':all_liked_posts}
+    return render(request, 'app/all_liked_posts.html', context)

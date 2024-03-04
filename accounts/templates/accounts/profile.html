@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+    <h2>User Information</h2>
+    <ul>
+        <li>Username: {{ user.username }}</li>
+        <li>Email: {{ user.email }}</li>
+        <li>First Name: {{ user.first_name }}</li>
+        <li>Last Name: {{ user.last_name }}</li>
+        <!-- Add other user fields as needed -->
+    </ul>
+    
+    <h2>Posts</h2>
+    <ul>
+        {% for post in posts %}
+        <li>{{ post.title }}</li>
+        <p>{{ post.content }}</p>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'edit_profile' %}">Edit Profile</a>
+</body>
+</html>

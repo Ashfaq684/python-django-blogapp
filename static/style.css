@@ -1065,3 +1065,17 @@ p a {
 .reply button {
   background: transparent;
 }
+
+.form-group label {
+  font-size: 18px;
+  font-weight: bold;
+}
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"] {
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 16px;
+  width: 100%;
+}

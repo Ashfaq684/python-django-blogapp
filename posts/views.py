@@ -1,14 +1,61 @@
-from django.shortcuts import get_object_or_404, render
-from .forms import CommentForm
-from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
+from .forms import PostForm, CommentForm
+from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.utils.text import slugify
 from .models import Comments, Post, Tag
 from accounts.models import Profile
-from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.db.models import Count
 
 # Create your views here.
+
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            base_slug = slugify(post.title)
+            slug = base_slug
+            counter = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            post.slug = slug
+            post.save()
+            return redirect('post_page', slug=post.slug)
+    else:
+        form = PostForm()
+    return render(request, 'posts/create_post.html', {'form': form})
+
+
+@login_required
+def update_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.user != post.author:
+        return HttpResponseForbidden("You are not authorized to perform this action.")
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_page', slug=post.slug)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'posts/update_post.html', {'form': form})
+
+
+@login_required
+def delete_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.user != post.author:
+        return HttpResponseForbidden("You are not authorized to perform this action.")
+    if request.method == 'POST':
+        post.delete()
+        return redirect('profile')
+    return render(request, 'posts/delete_post.html', {'post': post})
+
 
 def post_page(request, slug):
     post = Post.objects.get(slug = slug)

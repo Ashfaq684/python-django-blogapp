@@ -14,6 +14,7 @@
 
 :root {
   --red: #ff4b64;
+  --dark-red: #dd4455;
   --black: #404040;
   --des: #555555;
   --shadow: #ffffff1a 0px 1px 1px 0px inset, #32325d40 0px 50px 100px -20px,
@@ -103,9 +104,20 @@ header .container {
   color: white;
 }
 
-.btn-scoundary {
+.btn-secondary {
   background: transparent;
   color: var(--red);
+}
+
+.btn-primary:hover {
+  background-color: var(--dark-red);
+  border-color: var(--dark-red);
+}
+
+.btn-secondary:hover {
+  background-color: var(--dark-red);
+  border-color: var(--dark-red);
+  color: white;
 }
 
 .rounded {
@@ -476,6 +488,14 @@ footer .container {
   text-transform: uppercase;
   font-weight: 600;
   line-height: 5rem;
+}
+
+.page-name h2 {
+  font-size: 5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 5rem;
+  margin-bottom: 40px;
 }
 
 .flex {
@@ -1078,4 +1098,93 @@ p a {
   padding: 8px;
   font-size: 16px;
   width: 100%;
+}
+
+.action-btn-container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.post-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Add space between form fields */
+}
+
+label {
+  display: block; /* Display labels as blocks to ensure they stack vertically */
+  font-weight: bold; /* Make labels bold for emphasis */
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%; /* Make input fields fill their container */
+  padding: 10px; /* Add padding to input fields */
+  border: 1px solid #ccc; /* Add border to input fields */
+  border-radius: 5px; /* Add border radius to input fields */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's total width */
+}
+
+.post-button {
+  padding: 10px 20px; /* Add padding to buttons */
+  background-color: #007bff; /* Set button background color */
+  color: #fff; /* Set button text color */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border radius to buttons */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.post-button:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
+
+
+.update {
+  width: fit-content;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.update-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.update-container a {
+  width: 10rem;
+  aspect-ratio: 1/1;
+  border-radius: 5%;
+  border: 1px solid var(--red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.update-container i {
+  color: var(--red);
+  font-size: 2rem;
+  transition: 0.3s;
+}
+
+/* .update-container a:hover {
+  background-color: var(--dark-red);
+}
+
+.update-container a:hover i {
+  color: var(--red);
+} */
+
+
+.user-input {
+  border: 1px solid #111111 !important;
+  border-radius: 5px !important;
 }

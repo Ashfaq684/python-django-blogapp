@@ -8,6 +8,7 @@ class Subscribe(models.Model):
     email = models.EmailField(max_length=100)
     date = models.DateTimeField(auto_now=True)
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
@@ -42,7 +43,6 @@ class Comments(models.Model):
     date = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200)
-    website = models.CharField(max_length=200)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.DO_NOTHING, null=True, blank=True, related_name='replies')

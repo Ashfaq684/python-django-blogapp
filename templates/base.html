@@ -43,14 +43,14 @@
           {% if user.is_authenticated %}
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button class="btn btn-scoundary">Logout</button>
+            <button class="btn btn-secondary">Logout</button>
           </form>
           <a href={% url "profile" %}>
             <button class="btn btn-primary">Profile</button>
           </a>
           {% else %}
           <a href="{% url "login" %}">
-            <button class="btn btn-scoundary">Login</button>
+            <button class="btn btn-secondary">Login</button>
           </a>
           <a href={% url "register" %}>
             <button class="btn btn-primary">Sign Up</button>

@@ -52,7 +52,6 @@ def profile(request, slug):
     recent_posts = Post.objects.filter(author = request.user).order_by('-last_updated')[0:2]
     top_authors = User.objects.annotate(number=Count('post')).order_by('-number')[0:2]
 
-    
     context = {
         'user': request.user,
         'posts': posts,
@@ -64,12 +63,12 @@ def profile(request, slug):
 
 
 @login_required
-def edit_profile(request):
+def edit_profile(request, slug):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # Redirect to the profile page after successful update
+            return redirect('profile', slug=slug)
     else:
         form = EditProfileForm(instance=request.user)
     

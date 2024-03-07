@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% block title %}Blog | Posts by {{profile.user.first_name}}{% endblock title %}
+{% block title %}Blog | Posts by {{profile.full_name}}{% endblock title %}
 
 {% block content %}
     <main>
@@ -10,7 +10,7 @@
               <a href="#" class="learn" onclick="window.history.back()">
                 <span class="material-icons"> keyboard_return </span> Go back
               </a>
-              <h1>Posts by {{profile.user.first_name}}</h1>
+              <h1>Posts by {{profile.full_name}}</h1>
             </div>
           </div>
         </div>

@@ -4,15 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 
 class PostForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.SelectMultiple())
+    
     class Meta:
         model = Post
         fields = ['title', 'content', 'image', 'tags']
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['tags'].widget.attrs['class'] = 'form-control'
-
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.SelectMultiple(attrs={'class': 'form-control'}))
 
 
 class CommentForm(forms.ModelForm):

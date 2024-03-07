@@ -14,5 +14,8 @@ class Profile(models.Model):
             self.slug = slugify(self.user.username)
         return super(Profile, self).save(*args, **kwargs)
     
+    def full_name(self):
+        return f'{self.user.first_name} {self.user.last_name}'
+    
     def __str__(self):
         return self.user.username

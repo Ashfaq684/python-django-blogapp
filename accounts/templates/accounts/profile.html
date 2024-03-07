@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Blog | {{user.first_name}}{% endblock title %}
+{% block title %}Blog | {{user.profile.full_name}}{% endblock title %}
 
 {% block content %}
     <main>
@@ -22,7 +22,7 @@
 
             <center>
               <div class="typo">
-                <h1 class="title">{{user.first_name}}</h1>
+                <h1 class="title">{{user.profile.full_name}}</h1>
                 <p>
                   {{user.profile.bio}}
                 </p>
@@ -30,7 +30,7 @@
               <div class="action-btn-container">
                 <div class="action-btn">
                   <a href="{% url 'create_post' %}" class="btn btn-primary rounded">Create Post</a>
-                  <a href="{% url 'edit_profile' %}" class="btn btn-secondary rounded">Edit Profile</a>
+                  <a href="{% url 'edit_profile' user.profile.slug %}" class="btn btn-secondary rounded">Edit Profile</a>
                 </div>
               </div>
             </center>
@@ -59,7 +59,7 @@
                               {% endif %}
                             </div>
                             <div class="details">
-                              <p>{{post.author.first_name}}</p>
+                              <p>{{post.author.profile.full_name}}</p>
                               <small>{{post.last_updated|date}}</small>
                             </div>
                           </div>
@@ -98,7 +98,7 @@
                               {% endif %}
                             </div>
                             <div class="details">
-                              <p>{{post.author.first_name}}</p>
+                              <p>{{post.author.profile.full_name}}</p>
                               <small>{{post.last_updated|date}}</small>
                             </div>
                           </div>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="recent-content">
                   <h3>
-                    {{author.first_name}}
+                    {{author.profile.full_name}}
                   </h3>
                   <a class="learn" href="{% url "author_page" author.profile.slug %}"
                     >Learn more

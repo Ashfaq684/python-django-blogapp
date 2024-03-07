@@ -1,5 +1,5 @@
 {% extends "base.html" %} 
-{% block title %}Blog | All Liked Posts{% endblock title %}
+{% block title %}Blog | Posts by {{profile.user.first_name}}{% endblock title %}
 
 {% block content %}
     <main>
@@ -7,10 +7,10 @@
         <div class="page-top">
           <div class="top flex">
             <div class="page-name">
-              <a href="{% url "index" %}" class="learn" onclick="window.history.back()">
+              <a href="#" class="learn" onclick="window.history.back()">
                 <span class="material-icons"> keyboard_return </span> Go back
               </a>
-              <h1>Liked Posts</h1>
+              <h1>Posts by {{profile.user.first_name}}</h1>
             </div>
           </div>
         </div>
@@ -19,7 +19,7 @@
     <section class="sp">
       <div class="container">
         <div class="blog-tags">
-          {% for post in all_liked_posts %}
+          {% for post in all_posts %}
           <p class="tag">
             <a style="color: white;" href="{% url "post_page" post.slug %}">{{post.title}}</a>
           </p>

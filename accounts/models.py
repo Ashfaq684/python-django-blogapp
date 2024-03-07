@@ -7,7 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(null=True, blank=True, upload_to="images/")
     slug = models.SlugField(max_length=200, unique=True)
-    bio = models.CharField(max_length=200)
+    bio = models.CharField(null=True, blank=True, max_length=200)
     
     def save(self, *args, **kwargs):
         if not self.id:

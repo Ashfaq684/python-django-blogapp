@@ -5,12 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.utils.text import slugify
 from .models import Comments, Post, Tag
-from accounts.models import Profile
 from django.contrib.auth.models import User
 from django.db.models import Count
 
 # Create your views here.
 
+@login_required
 def create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -43,7 +43,7 @@ def update_post(request, slug):
             return redirect('post_page', slug=post.slug)
     else:
         form = PostForm(instance=post)
-    return render(request, 'posts/update_post.html', {'form': form})
+    return render(request, 'posts/edit_post.html', {'form': form})
 
 
 @login_required
@@ -61,7 +61,7 @@ def post_page(request, slug):
     post = Post.objects.get(slug = slug)
     comments = Comments.objects.filter(post=post, parent=None)
     form = CommentForm()
-    
+    comment_count = comments.count()
     # Bookmark logic
     bookmarked = False
     if post.bookmarks.filter(id = request.user.id).exists():
@@ -103,10 +103,10 @@ def post_page(request, slug):
     post.save()
     
     # sidebar
-    recent_posts = Post.objects.exclude(id=post.id).order_by('-last_updated')[0:3]
-    top_authors = User.objects.annotate(number = Count('post')).order_by('number')
+    recent_posts = Post.objects.exclude(id=post.id).order_by('-last_updated')[0:2]
+    top_authors = User.objects.annotate(number = Count('post')).order_by('-number')[0:2]
     tags = Tag.objects.all()
-    related_posts = Post.objects.exclude(id=post.id).filter(author=post.author)[0:3]
+    related_posts = Post.objects.exclude(id=post.id).filter(author=post.author)[0:2]
     
     context = {
         'post':post, 
@@ -118,7 +118,9 @@ def post_page(request, slug):
         'recent_posts':recent_posts, 
         'top_authors':top_authors, 
         'tags':tags, 
-        'related_posts':related_posts}
+        'related_posts':related_posts,
+        'comment_count':comment_count,
+    }
     
     return render(request, 'posts/post.html', context)
 
@@ -128,17 +130,13 @@ def tag_page(request, slug):
     recent_posts = Post.objects.filter(tags__in=[tag.id]).order_by('-last_updated')[0:2]
     tags = Tag.objects.all()
     
-    context = {'tag':tag, 'top_posts':top_posts, 'recent_posts':recent_posts, 'tags':tags}
+    context = {
+        'tag':tag, 
+        'top_posts':top_posts, 
+        'recent_posts':recent_posts, 
+        'tags':tags
+    }
     return render(request, 'posts/tag.html', context)
-
-def author_page(request, slug):
-    profile = Profile.objects.get(slug=slug)
-    top_posts = Post.objects.filter(author = profile.user).order_by('-view_count')[0:2]
-    recent_posts = Post.objects.filter(author = profile.user).order_by('-last_updated')[0:2]
-    top_authors = User.objects.annotate(number=Count('post')).order_by('number')
-    
-    context = {'profile':profile, 'top_posts':top_posts, 'recent_posts':recent_posts, 'top_authors':top_authors}
-    return render(request, 'posts/author.html', context)
 
 
 def bookmark_post(request, slug):
@@ -161,11 +159,19 @@ def like_post(request, slug):
 
 def all_bookmarked_posts(request):
     all_bookmarked_posts = Post.objects.filter(bookmarks=request.user)
-    context={'all_bookmarked_posts':all_bookmarked_posts}
+    
+    context={
+        'all_bookmarked_posts':all_bookmarked_posts
+    }
+    
     return render(request, 'posts/all_bookmarked_posts.html', context)
 
 
 def all_liked_posts(request):
     all_liked_posts = Post.objects.filter(likes=request.user)
-    context={'all_liked_posts':all_liked_posts}
+    
+    context={
+        'all_liked_posts':all_liked_posts
+    }
+    
     return render(request, 'posts/all_liked_posts.html', context)

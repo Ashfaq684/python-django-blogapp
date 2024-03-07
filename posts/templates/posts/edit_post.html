@@ -7,11 +7,11 @@
             <a href="#" class="learn" onclick="window.history.back()">
                 <span class="material-icons">keyboard_return</span> Go back
             </a>
-            <h2>Create Post</h2>
+            <h2>Edit Post</h2>
         </div>
 
         <div class="cardx">
-            <div class="card-body">
+            <div class="card-body" style="font-size: 18px; font-weight:bold;">
                 <form method="post" enctype="multipart/form-data" class="post-form">
                     {% csrf_token %}
                     <div class="form-group">
@@ -30,7 +30,7 @@
                         <label for="id_tags">Tags:</label>
                         {{ form.tags }}
                     </div>
-                    <button type="submit" class="post-button">Submit</button>
+                    <button type="submit" class="post-button">Update</button>
                 </form>
             </div>
         </div>

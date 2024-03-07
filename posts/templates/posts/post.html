@@ -112,7 +112,7 @@
                       </div>
                       <div class="total-comments">
                         <i class="uil uil-comment-alt"></i>
-                        <span>10</span>
+                        <span>{{ comment_count }}</span>
                       </div>
                     </div>
                   </div>
@@ -258,25 +258,26 @@
           </div>
           
           <div class="block">
-            <h2 class="title2">Top category</h2>
+            <h2 class="title2">Top Authors</h2>
             {% for author in top_authors %}
-            <div class="recent-post">
-              <div class="rounded-img">
-                {% if user.profile.profile_image %}
-                  <img src="{{ user.profile.profile_image.url }}" alt="Profile Image">
-                {% else %}
+              <div class="recent-post other-author">
+                <div class="rounded-img">
+                  {% if author.profile.profile_image %}
+                  <img src="{{author.profile.profile_image.url}}" alt="" />
+                  {% else %}
                   <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
-                {% endif %}
+                  {% endif %}
+                </div>
+                <div class="recent-content">
+                  <h3>
+                    {{author.first_name}}
+                  </h3>
+                  <a class="learn" href="{% url "author_page" author.profile.slug %}"
+                    >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
               </div>
-              <div class="recent-content">
-                <h3>
-                  {{post.author.first_name}}
-                </h3>
-                <a class="learn" href="{% url "author_page" author.profile.slug %}">
-                  Learn more <span class="material-icons"> trending_flat </span>
-                </a>
-              </div>
-            </div>
             {% endfor %}
           </div>
           <div class="block">

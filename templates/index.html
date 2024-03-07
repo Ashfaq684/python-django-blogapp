@@ -29,18 +29,10 @@
                     </p>
                 {% endif %}
             </div>
-            <div class="newsletter">
-                {% if request.session.subscribed == None %}
-                <form method="POST">
-                    {% csrf_token %}
-                    {{subscribe_form}}
-                    <button class="btn btn-primary">Subscribe</button>
-                </form>
-                {% endif %}
-                
-                {% if subscribe_successful %}
-                <br><p>Subscribed Successfully</p>
-                {% endif %}
+            <div class="action-btn-container">
+                <div class="action-btn">
+                  <a href="{% url 'create_post' %}" class="btn btn-primary rounded">Create Post</a>
+                </div>
             </div>
         </center>
         </div>
@@ -54,8 +46,8 @@
                     <img src="{{featured_blog.image.url}}" alt="" />
                 </div>
                 <div class="post-content">
-                    <div class="cetagory">
-                        <p>Category name</p>
+                    <div class="category">
+                        <p>{{featured_blog.tags.all.0.name}}</p>
                     </div>
                     <h1>
                         {{featured_blog.title}}
@@ -90,8 +82,8 @@
                             </h3>
                             <div class="author">
                                 <div class="profile-pic">
-                                    {% if user.profile.profile_image %}
-                                        <img src="{{ user.profile.profile_image.url }}" alt="Profile Image">
+                                    {% if post.author.profile.profile_image %}
+                                        <img src="{{ post.author.profile.profile_image.url }}" alt="Profile Image">
                                     {% else %}
                                         <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
                                     {% endif %}
@@ -132,8 +124,8 @@
                             </h3>
                             <div class="author">
                                 <div class="profile-pic">
-                                    {% if user.profile.profile_image %}
-                                        <img src="{{ user.profile.profile_image.url }}" alt="Profile Image">
+                                    {% if post.author.profile.profile_image %}
+                                        <img src="{{ post.author.profile.profile_image.url }}" alt="Profile Image">
                                     {% else %}
                                         <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
                                     {% endif %}

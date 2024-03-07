@@ -28,4 +28,5 @@ urlpatterns = [
     path('search/', views.search_posts, name='search'),
     path('about/', views.about, name='about'),
     path('all_posts/', views.all_posts, name='all_posts'),
+    path('author_all_posts/<slug:slug>/', views.author_all_posts, name='author_all_posts'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

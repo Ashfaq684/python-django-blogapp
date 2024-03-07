@@ -11,13 +11,19 @@
             <h2>Delete Post</h2>
         </div>
 
-        <div class="alert alert-danger">
-            <p>Are you sure you want to delete the post "{{ post.title }}"?</p>
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger">Yes, delete</button>
-                <a href="{% url 'post_page' post.slug %}" class="btn btn-secondary">Cancel</a>
-            </form>
+        <div class="cardx">
+            <div class="card-body">
+                <p class="confirmation-message"><b>Are you sure you want to delete the post?</b></p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="update">
+                        <div class="update-container">
+                            <button type="submit" class="btn btn-primary">Yes, delete</button>
+                            <a href="{% url 'post_page' post.slug %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </main>

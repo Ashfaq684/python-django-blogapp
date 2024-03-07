@@ -30,6 +30,7 @@
               <div class="action-btn-container">
                 <div class="action-btn">
                   <a href="{% url 'create_post' %}" class="btn btn-primary rounded">Create Post</a>
+                  <a href="{% url 'edit_profile' %}" class="btn btn-secondary rounded">Edit Profile</a>
                 </div>
               </div>
             </center>
@@ -51,7 +52,11 @@
                           </h3>
                           <div class="author">
                             <div class="profile-pic">
-                              <img src="{{profile.profile_image.url}}" alt="" />
+                              {% if post.author.profile.profile_image %}
+                              <img src="{{post.author.profile.profile_image.url}}" alt="" />
+                              {% else %}
+                              <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
+                              {% endif %}
                             </div>
                             <div class="details">
                               <p>{{post.author.first_name}}</p>
@@ -86,7 +91,11 @@
                           </h3>
                           <div class="author">
                             <div class="profile-pic">
+                              {% if post.author.profile.profile_image %}
                               <img src="{{post.author.profile.profile_image.url}}" alt="" />
+                              {% else %}
+                              <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
+                              {% endif %}
                             </div>
                             <div class="details">
                               <p>{{post.author.first_name}}</p>
@@ -102,10 +111,9 @@
                   {% endfor %}
                 </div>
                 <center>
-                  <button class="btn btn-primary rounded view">
-                    View more
-                    <span class="material-icons"> trending_flat </span>
-                  </button>
+                  <a href="{% url "author_all_posts" user.profile.slug %}"><button class="btn btn-primary rounded view">
+                  View more <span class="material-icons"> trending_flat </span>
+                  </button></a>
                 </center>
               </div>
             </section>
@@ -114,15 +122,35 @@
 
           <!-- right layout -->
           <div class="right">
-            <div class="page-top">
-              <div class="user-profile">
+            <div class="block">
+              <div class="user-profile" style="margin-bottom:20px;">
                 {% if user.profile.profile_image %}
                   <img src="{{ user.profile.profile_image.url }}" alt="Profile Image">
                 {% else %}
                   <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
                 {% endif %}
-                <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
               </div>
+              <h2 class="title2">Top Authors</h2>
+              {% for author in top_authors %}
+              <div class="recent-post other-author">
+                <div class="rounded-img">
+                  {% if author.profile.profile_image %}
+                  <img src="{{author.profile.profile_image.url}}" alt="" />
+                  {% else %}
+                  <img src="{% static "images/blank-profile.webp" %}" alt="blank Image">
+                  {% endif %}
+                </div>
+                <div class="recent-content">
+                  <h3>
+                    {{author.first_name}}
+                  </h3>
+                  <a class="learn" href="{% url "author_page" author.profile.slug %}"
+                    >Learn more
+                    <span class="material-icons"> trending_flat </span></a
+                  >
+                </div>
+              </div>
+              {% endfor %}
             </div>
           </div>
           <!-- right layout end -->

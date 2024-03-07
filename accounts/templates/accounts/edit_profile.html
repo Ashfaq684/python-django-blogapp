@@ -11,31 +11,33 @@
             <h1>Edit Profile</h1>
         </div>
 
-        <form method="post" enctype="multipart/form-data" class="form">
-            {% csrf_token %}
-            <!-- Render username and bio fields -->
-            <div class="form-group">
-                <label for="id_first_name">First Name:</label>
-                {{ form.first_name }}
-            </div>
-            <div class="form-group">
-                <label for="id_last_name">Last Name:</label>
-                {{ form.last_name }}
-            </div>
-            <div class="form-group">
-                <label for="id_bio">Bio:</label>
-                {{ form.bio }}
-            </div>
-            <div class="form-group">
-                <label for="id_profile_image">Profile Image:</label>
-                {{ form.profile_image }}
-            </div>
-            <!-- Exclude email field -->
-            <input type="hidden" name="email" value="{{ user.email }}">
+        <div class="form" style="font-size: 18px; font-weight:bold;">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Render username and bio fields -->
+                <div class="form-group">
+                    <label for="id_first_name">First Name:</label>
+                    {{ form.first_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_last_name">Last Name:</label>
+                    {{ form.last_name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_bio">Bio:</label>
+                    {{ form.bio }}
+                </div>
+                <div class="form-group">
+                    <label for="id_profile_image">Profile Image:</label>
+                    {{ form.profile_image }}
+                </div>
+                <!-- Exclude email field -->
+                <input type="hidden" name="email" value="{{ user.email }}">
 
 
-            <button type="submit" class="btn btn-primary rounded">Update Profile</button>
-        </form>
+                <button type="submit" class="btn btn-primary rounded">Update Profile</button>
+            </form>
+        </div>
     </div>
 </main>
 {% endblock content %}

@@ -45,7 +45,7 @@
             {% csrf_token %}
             <button class="btn btn-secondary">Logout</button>
           </form>
-          <a href={% url "profile" %}>
+          <a href={% url "profile" request.user.profile.slug %}>
             <button class="btn btn-primary">Profile</button>
           </a>
           {% else %}
@@ -97,32 +97,32 @@
           <div class="news-signup">
             <h2>Subscribe</h2>
             <div class="newsletter">
+              {% if request.session.subscribed == None %}
               <form method="POST">
-                <input
-                  type="email"
-                  name="email"
-                  maxlength="100"
-                  placeholder="Enter your email"
-                  required=""
-                  id="id_email"
-                />
-                <button class="btn btn-primary">Subscribe</button>
+                  {% csrf_token %}
+                  {{subscribe_form}}
+                  <button class="btn btn-primary">Subscribe</button>
               </form>
-            </div>
+              {% endif %}
+              
+              {% if subscribe_successful %}
+              <br><p>Subscribed Successfully</p>
+              {% endif %}
+          </div>
           </div>
         </div>
         <div class="share">
           <div class="social">
-            <a href="#">
+            <a href="https://www.facebook.com/">
               <i class="fa-brands fa-facebook-f"></i>
             </a>
-            <a href="#">
+            <a href="https://www.instagram.com/">
               <i class="fa-brands fa-instagram"></i>
             </a>
-            <a href="#">
+            <a href="https://www.linkedin.com/">
               <i class="fa-brands fa-linkedin-in"></i>
             </a>
-            <a href="#">
+            <a href="https://twitter.com/">
               <i class="fa-brands fa-twitter"></i>
             </a>
           </div>

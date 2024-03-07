@@ -7,7 +7,6 @@ urlpatterns = [
     path('post/<slug:slug>', views.post_page, name='post_page'),
     path('post/<slug:slug>/delete/', views.delete_post, name='delete_post'),
     path('tag/<slug:slug>', views.tag_page, name='tag_page'),
-    path('author/<slug:slug>', views.author_page, name='author_page'),
     path('bookmark_post/<slug:slug>', views.bookmark_post, name='bookmark_post'),
     path('like_post/<slug:slug>', views.like_post, name='like_post'),
     path('all_bookmarked_posts/', views.all_bookmarked_posts, name='all_bookmarked_posts'),

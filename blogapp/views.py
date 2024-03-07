@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from posts.forms import SubscribeForm
 from posts.models import Post, WebsiteMeta
+from accounts.models import Profile
 
 
 def index(request):
@@ -26,6 +27,8 @@ def index(request):
             subscribe_successful = 'Subscribed Successfully'
             subscribe_form = SubscribeForm()
     
+    profile = request.user.profile if hasattr(request.user, 'profile') else None
+    
     context = {
         'posts':posts, 
         'website_info':website_info, 
@@ -33,8 +36,9 @@ def index(request):
         'recent_posts':recent_posts, 
         'subscribe_form':subscribe_form, 
         'subscribe_successful':subscribe_successful, 
-        'featured_blog': featured_blog
-        }
+        'featured_blog': featured_blog,
+        'profile': profile,
+    }
     
     return render(request, 'index.html', context)
 
@@ -67,8 +71,21 @@ def about(request):
 
 def all_posts(request):
     all_posts = Post.objects.all()
+    
     context={
         'all_posts':all_posts
-        }
+    }
     
     return render(request, 'posts/all_posts.html', context)
+
+
+def author_all_posts(request, slug):
+    profile = get_object_or_404(Profile, slug=slug)
+    all_posts = Post.objects.filter(author=profile.user)
+    
+    context={
+        'all_posts':all_posts,
+        'profile': profile,
+    }
+    
+    return render(request, 'posts/author_all_posts.html', context)

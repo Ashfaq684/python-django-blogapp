@@ -637,6 +637,12 @@ footer .container {
 
 .blog-post-content {
   margin-top: 3rem;
+  font-size: 18px;
+}
+
+.blog-post-content p {
+  font-size: 18px;
+  text-align: justify;
 }
 
 .blog-tags .tag {

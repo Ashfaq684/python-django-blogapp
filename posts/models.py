@@ -37,6 +37,9 @@ class Post(models.Model):
     
     def number_of_likes(self):
         return self.likes.count()
+    
+    def __str__(self):
+        return self.title
 
 class Comments(models.Model):
     content = models.TextField()

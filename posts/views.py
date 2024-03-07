@@ -124,6 +124,7 @@ def post_page(request, slug):
     
     return render(request, 'posts/post.html', context)
 
+
 def tag_page(request, slug):
     tag = Tag.objects.get(slug=slug)
     top_posts = Post.objects.filter(tags__in=[tag.id]).order_by('-view_count')[0:2]
@@ -138,6 +139,17 @@ def tag_page(request, slug):
     }
     return render(request, 'posts/tag.html', context)
 
+
+def tag_all_posts(request, slug):
+    tag = Tag.objects.get(slug=slug)
+    all_posts = Post.objects.filter(tags__in=[tag.id])
+    
+    context = {
+        'tag' : tag,
+        'all_posts': all_posts
+    }
+    
+    return render(request, 'posts/tag_all_posts.html', context)
 
 def bookmark_post(request, slug):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))

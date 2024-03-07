@@ -53,7 +53,7 @@
                               {% endif %}
                             </div>
                             <div class="details">
-                              <p>{{post.author.first_name}}</p>
+                              <p>{{post.author.profile.full_name}}</p>
                               <small>{{post.last_updated|date}}</small>
                             </div>
                           </div>
@@ -92,7 +92,7 @@
                               {% endif %}
                             </div>
                             <div class="details">
-                              <p>{{post.author.first_name}}</p>
+                              <p>{{post.author.profile.full_name}}</p>
                               <small>{{post.last_updated|date}}</small>
                             </div>
                           </div>
@@ -105,7 +105,7 @@
                   {% endfor %}
                 </div>
                 <center>
-                  <a href="{% url "all_posts" %}"><button class="btn btn-primary rounded view">
+                  <a href="{% url "tag_all_posts" tag.slug %}"><button class="btn btn-primary rounded view">
                   View more <span class="material-icons"> trending_flat </span>
                   </button></a>
                 </center>

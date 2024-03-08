@@ -83,9 +83,17 @@ def about(request):
 
 def all_posts(request):
     all_posts = Post.objects.all()
+    paginator = Paginator(all_posts, 6)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
     
-    context={
-        'all_posts':all_posts
+    context = {
+        'posts': posts,
     }
     
     return render(request, 'posts/all_posts.html', context)

@@ -1,7 +1,9 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
-from posts.forms import SubscribeForm
 from posts.models import Post, WebsiteMeta
+from posts.forms import SubscribeForm
 from accounts.models import Profile
+from django.db.models import Q
 
 
 def index(request):
@@ -44,15 +46,25 @@ def index(request):
 
 
 def search_posts(request):
-    search_query=''
-    if request.GET.get('q'):
-        search_query=request.GET.get('q')
-    posts = Post.objects.filter(title__icontains=search_query)
+    search_query = request.GET.get('q', '')
+    post_list = Post.objects.filter(
+            Q(title__icontains=search_query) | 
+            Q(content__icontains=search_query)
+        )
+    
+    paginator = Paginator(post_list, 6)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
     
     context = {
-        'posts':posts, 
-        'search_query':search_query
-        }
+        'posts': posts,
+        'search_query': search_query
+    }
     
     return render(request, 'posts/search.html', context)
 

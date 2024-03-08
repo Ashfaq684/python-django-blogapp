@@ -32,12 +32,12 @@
             <div class="card">
               <div class="post-img">
                 <img src="{{post.image.url}}" alt="" />
-                <div class="tag">{{post.tags.all.0.name}}</div>
+                {% if post.tags.all %}
+                <div class="tag">{{ post.tags.all.0.name }}</div>
+                {% endif %}
               </div>
               <div class="card-content">
-                <h3>
-                  {{post.title}}
-                </h3>
+                <h3>{{ post.title }}</h3>
                 <div class="author">
                   <div class="profile-pic">
                     {% if post.author.profile.profile_image %}
@@ -47,8 +47,8 @@
                     {% endif %}
                   </div>
                   <div class="details">
-                    <p>{{post.author.profile.full_name}}</p>
-                    <small>{{post.last_updated|date}}</small>
+                    <p>{{ post.author.profile.full_name }}</p>
+                    <small>{{ post.last_updated|date }}</small>
                   </div>
                 </div>
               </div>
@@ -59,4 +59,21 @@
         </div>
       </div>
     </section>
+
+    <!-- Pagination -->
+    <div class="container">
+      <div class="pagination">
+        {% if posts.has_previous %}
+          <a href="?page=1">&laquo;</a>
+          <a href="?page={{ posts.previous_page_number }}">{{ posts.previous_page_number }}</a>
+        {% endif %}
+        
+        <span class="current">{{ posts.number }}</span>
+
+        {% if posts.has_next %}
+          <a href="?page={{ posts.next_page_number }}">{{ posts.next_page_number }}</a>
+          <a href="?page={{ posts.paginator.num_pages }}">&raquo;</a>
+        {% endif %}
+      </div>
+    </div>
 {% endblock content %}

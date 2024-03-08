@@ -25,6 +25,7 @@ def create_post(request):
                 counter += 1
             post.slug = slug
             post.save()
+            form.save_m2m()
             return redirect('post_page', slug=post.slug)
     else:
         form = PostForm()

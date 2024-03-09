@@ -97,11 +97,12 @@ def post_page(request, slug):
                 comment.save()
                 return HttpResponseRedirect(reverse('post_page', kwargs={'slug':slug}))
             
-    if post.view_count is None:
-        post.view_count = 1
-    else:
-        post.view_count = post.view_count + 1
-    post.save()
+    if request.method != 'POST':
+        if post.view_count is None:
+            post.view_count = 1
+        else:
+            post.view_count += 1
+        post.save(update_fields=['view_count'])
     
     # sidebar
     recent_posts = Post.objects.exclude(id=post.id).order_by('-last_updated')[0:2]
